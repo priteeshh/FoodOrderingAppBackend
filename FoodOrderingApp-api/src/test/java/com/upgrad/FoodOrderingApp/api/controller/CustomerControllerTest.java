@@ -268,15 +268,15 @@ public class CustomerControllerTest {
     @Test
     public void shouldUpdateCustomerDetails() throws Exception {
         final CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setFirstName("firstname");
+        customerEntity.setFirstname("firstname");
         final String customerId = UUID.randomUUID().toString();
         customerEntity.setUuid(customerId);
 
         when(mockCustomerService.getCustomer("auth")).thenReturn(customerEntity);
 
         final CustomerEntity updatedCustomerEntity = new CustomerEntity();
-        updatedCustomerEntity.setFirstName("first");
-        updatedCustomerEntity.setLastName("last");
+        updatedCustomerEntity.setFirstname("first");
+        updatedCustomerEntity.setLastname("last");
         updatedCustomerEntity.setUuid(customerId);
         when(mockCustomerService.updateCustomer(customerEntity)).thenReturn(updatedCustomerEntity);
         mockMvc
