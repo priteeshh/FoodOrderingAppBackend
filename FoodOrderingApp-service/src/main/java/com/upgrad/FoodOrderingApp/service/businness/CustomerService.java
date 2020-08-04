@@ -6,6 +6,7 @@ import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthenticationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SignUpRestrictedException;
+import com.upgrad.FoodOrderingApp.service.exception.UpdateCustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -116,6 +117,22 @@ public class CustomerService {
     public CustomerEntity updateCustomer(CustomerEntity customerEntity) throws AuthorizationFailedException {
         CustomerEntity updatedCustomerEntity =  customerDao.updateCustomer(customerEntity);
         return  updatedCustomerEntity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public CustomerEntity updateCustomerPassword(String oldPassword, String newPassword,CustomerEntity customerEntity) throws  UpdateCustomerException {
+        if (!newPassword.matches("^(?=.*[a-z]){3,}(?=.*[A-Z]){2,}(?=.*[0-9]){2,}(?=.*[#@$%&*!^]){1,}.{8,}$")) {
+            throw new UpdateCustomerException("UCR-001", "Weak password!");
+        }
+        String encryptedOldPassword = passwordCryptographyProvider.encrypt(oldPassword,customerEntity.getSalt());
+        if(encryptedOldPassword.equals(customerEntity.getPassword())){
+            String encryptedNewPassword = passwordCryptographyProvider.encrypt(newPassword,customerEntity.getSalt());
+            customerEntity.setPassword(encryptedNewPassword);
+            customerDao.updatePassword(customerEntity);
+            return customerEntity;
+        }else{
+            throw new UpdateCustomerException("UCR-004", "Incorrect old password!");
+        }
     }
 
 }

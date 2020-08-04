@@ -93,4 +93,19 @@ public class CustomerController {
         return new ResponseEntity<UpdateCustomerResponse>(updateCustomerResponse, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, path = "/customer/password", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UpdatePasswordResponse> updatePassword(@RequestHeader("authorization") final String authorization, @RequestBody final UpdatePasswordRequest updatePasswordRequest) throws AuthorizationFailedException, AuthenticationFailedException, UpdateCustomerException {
+        if(updatePasswordRequest.getOldPassword() == null || updatePasswordRequest.getOldPassword() == "" ||
+                updatePasswordRequest.getNewPassword() == null || updatePasswordRequest.getNewPassword() == ""){
+            throw new UpdateCustomerException("UCR-003","No field should be empty");
+        }
+        String authToken = authorization.split("Bearer ")[1];
+        CustomerEntity customerEntity = customerService.getCustomer(authToken);
+        CustomerEntity updatedCustomerEntity = customerService.updateCustomerPassword(updatePasswordRequest.getOldPassword(),updatePasswordRequest.getNewPassword(),customerEntity);
+
+        UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse().id(updatedCustomerEntity.getUuid()).status("CUSTOMER PASSWORD UPDATED SUCCESSFULLY");
+
+        return new ResponseEntity<UpdatePasswordResponse>(updatePasswordResponse,HttpStatus.OK);
+    }
+
 }
