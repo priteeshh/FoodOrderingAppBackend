@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AddressService {
 
@@ -45,6 +49,15 @@ public class AddressService {
            throw new AddressNotFoundException("ANF-002","No state by this id");
        }
         return state;
+    }
+
+    public List<AddressEntity> getAllAddress(CustomerEntity customerEntity) {
+        List<CustomerAddressEntity> customerAddressEntityList = addressDao.getAllCustomerAddress(customerEntity);
+        List<AddressEntity> addressList = new ArrayList<>();
+        for (CustomerAddressEntity address : customerAddressEntityList) {
+            addressList.add(address.getAddress());
+        }
+        return addressList;
     }
 
 }
