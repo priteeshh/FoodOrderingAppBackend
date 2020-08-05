@@ -77,4 +77,9 @@ public class AddressService {
         return deletedAddressEntity;
     }
 
+    public List<StateEntity> getAllStates(){
+        List<StateEntity> stateEntityList = addressDao.getAllState();
+        return stateEntityList;
+    }
+
 }

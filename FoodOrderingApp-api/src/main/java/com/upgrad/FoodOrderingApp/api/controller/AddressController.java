@@ -88,4 +88,19 @@ public class AddressController {
 
         return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse,HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/states", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<StatesListResponse> getAllStates(){
+
+        List<StateEntity> allStatesList = addressService.getAllStates();
+        List<StatesList> finalStates = null;
+        if (allStatesList.size() != 0) {
+            finalStates = new ArrayList<StatesList>();
+            for (StateEntity stateEntity : allStatesList) {
+                finalStates.add(new StatesList().id(UUID.fromString(stateEntity.getUuid())).stateName(stateEntity.getStateName()));
+            }
+        }
+        StatesListResponse statesListResponse = new StatesListResponse().states(finalStates);
+        return new ResponseEntity<StatesListResponse>(statesListResponse,HttpStatus.OK);
+    }
 }

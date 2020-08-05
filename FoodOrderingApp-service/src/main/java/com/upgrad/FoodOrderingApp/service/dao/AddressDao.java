@@ -63,4 +63,12 @@ public class AddressDao {
         return addressEntity;
     }
 
+    public List<StateEntity> getAllState(){
+        try {
+            return entityManager.createNamedQuery("getAllState", StateEntity.class).getResultList();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
 }
