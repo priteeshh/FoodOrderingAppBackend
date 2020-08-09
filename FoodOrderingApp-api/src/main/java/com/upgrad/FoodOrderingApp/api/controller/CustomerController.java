@@ -71,9 +71,11 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST, path = "/customer/logout", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LogoutResponse> logout(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
 
-        String authToken = authorization.split("Bearer ")[1];
-        CustomerAuthEntity customerAuthEntity = customerService.logout(authToken);
-
+        //TOD: Remove this:
+        //String authToken = authorization.split("Bearer ")[1];
+        CustomerAuthEntity customerAuthEntity = customerService.logout(authorization);
+        //TODO: Check or Include customer logged out, login again to ccess this endoint
+        //TODO: Check or Include Your session expired and login again to  access
         LogoutResponse logoutResponse = new LogoutResponse().id(customerAuthEntity.getCustomer().getUuid()).message("LOGGED OUT SUCCESSFULLY");
         return new ResponseEntity<LogoutResponse>(logoutResponse, HttpStatus.OK);
     }
