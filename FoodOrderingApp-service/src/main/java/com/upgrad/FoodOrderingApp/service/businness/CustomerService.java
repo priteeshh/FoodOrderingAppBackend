@@ -81,8 +81,6 @@ public class CustomerService {
     @Transactional(propagation = Propagation.REQUIRED)
     public CustomerAuthEntity logout(final String authToken) throws AuthorizationFailedException {
         CustomerAuthEntity customerAuthEntity = getAuthCustomer(authToken);
-        if(customerAuthEntity == null)
-            throw new AuthorizationFailedException("ATHR-001","Customer not Logged in");
         customerAuthEntity.setLogout_at(ZonedDateTime.now());
         CustomerAuthEntity logoutCustomerAuthEntity = customerDao.customerLogout(customerAuthEntity);
         return logoutCustomerAuthEntity;
