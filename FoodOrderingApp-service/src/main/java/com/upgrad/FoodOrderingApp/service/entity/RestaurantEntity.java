@@ -5,7 +5,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "getAllRestaurants", query = "select p from RestaurantEntity p order by customerRating desc")
+        @NamedQuery(name = "getAllRestaurants", query = "select p from RestaurantEntity p order by customerRating desc"),
+        @NamedQuery(name = "getRestaurantByName", query = "select r from RestaurantEntity r where lower(r.restaurantName) like:restaurantName")
 })
 @Table(name = "restaurant")
 public class RestaurantEntity {
