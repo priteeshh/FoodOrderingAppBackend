@@ -7,6 +7,10 @@ import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
 import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
+import com.upgrad.FoodOrderingApp.service.entity.AddressEntity;
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
+import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
+import com.upgrad.FoodOrderingApp.service.entity.StateEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.InvalidRatingException;
@@ -25,6 +29,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static com.upgrad.FoodOrderingApp.service.common.ItemType.NON_VEG;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -119,7 +124,7 @@ public class RestaurantControllerTest {
     @Test
     public void shouldGetRestaurantDetailsByGivenName() throws Exception {
         final RestaurantEntity restaurantEntity = getRestaurantEntity();
-        when(mockRestaurantService.restaurantsByName("someRestaurantName"))
+        when(mockRestaurantService.getRestaurantByName("someRestaurantName"))
                 .thenReturn(Collections.singletonList(restaurantEntity));
 
         final CategoryEntity categoryEntity = getCategoryEntity();
@@ -139,7 +144,7 @@ public class RestaurantControllerTest {
         assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
         assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
 
-        verify(mockRestaurantService, times(1)).restaurantsByName("someRestaurantName");
+        verify(mockRestaurantService, times(1)).getRestaurantByName("someRestaurantName");
         verify(mockCategoryService, times(1)).getCategoriesByRestaurant(restaurantEntity.getUuid());
     }
 
@@ -147,14 +152,14 @@ public class RestaurantControllerTest {
     // field is empty.
     @Test
     public void shouldNotGetRestaurantByNameIfNameIsEmpty() throws Exception {
-        when(mockRestaurantService.restaurantsByName(anyString()))
+        when(mockRestaurantService.getRestaurantByName(anyString()))
                 .thenThrow(new RestaurantNotFoundException("RNF-003", "Restaurant name field should not be empty"));
 
         mockMvc
                 .perform(get("/restaurant/name/emptyString").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("code").value("RNF-003"));
-        verify(mockRestaurantService, times(1)).restaurantsByName(anyString());
+        verify(mockRestaurantService, times(1)).getRestaurantByName(anyString());
     }
 
 
@@ -164,7 +169,7 @@ public class RestaurantControllerTest {
     @Test
     public void shouldGetRestaurantDetailsByGivenCategoryId() throws Exception {
         final RestaurantEntity restaurantEntity = getRestaurantEntity();
-        when(mockRestaurantService.restaurantByCategory("someCategoryId"))
+        when(mockRestaurantService.getRestaurantByCategory("someCategoryId"))
                 .thenReturn(Collections.singletonList(restaurantEntity));
 
         final CategoryEntity categoryEntity = getCategoryEntity();
@@ -184,7 +189,7 @@ public class RestaurantControllerTest {
         assertEquals(restaurantList.getAddress().getId().toString(), restaurantEntity.getAddress().getUuid());
         assertEquals(restaurantList.getAddress().getState().getId().toString(), restaurantEntity.getAddress().getState().getUuid());
 
-        verify(mockRestaurantService, times(1)).restaurantByCategory("someCategoryId");
+        verify(mockRestaurantService, times(1)).getRestaurantByCategory("someCategoryId");
         verify(mockCategoryService, times(1)).getCategoriesByRestaurant(restaurantEntity.getUuid());
     }
 
@@ -192,28 +197,28 @@ public class RestaurantControllerTest {
     // field is empty.
     @Test
     public void shouldNotGetRestaurantByCategoryidIfCategoryIdIsEmpty() throws Exception {
-        when(mockRestaurantService.restaurantByCategory(anyString()))
+        when(mockRestaurantService.getRestaurantByCategory(anyString()))
                 .thenThrow(new CategoryNotFoundException("CNF-001", "Category id field should not be empty"));
 
         mockMvc
                 .perform(get("/restaurant/category/emptyString").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("code").value("CNF-001"));
-        verify(mockRestaurantService, times(1)).restaurantByCategory(anyString());
+        verify(mockRestaurantService, times(1)).getRestaurantByCategory(anyString());
     }
 
     //This test case passes when you have handled the exception of trying to fetch any restaurant by its category id, while there
     // is not category by that id in the database
     @Test
     public void shouldNotGetRestaurantsByCategoryIdIfCategoryDoesNotExistAgainstGivenId() throws Exception {
-        when(mockRestaurantService.restaurantByCategory("someCategoryId"))
+        when(mockRestaurantService.getRestaurantByCategory("someCategoryId"))
                 .thenThrow(new CategoryNotFoundException("CNF-002", "No category by this id"));
 
         mockMvc
                 .perform(get("/restaurant/category/someCategoryId").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("code").value("CNF-002"));
-        verify(mockRestaurantService, times(1)).restaurantByCategory("someCategoryId");
+        verify(mockRestaurantService, times(1)).getRestaurantByCategory("someCategoryId");
     }
 
 
@@ -429,15 +434,15 @@ public class RestaurantControllerTest {
 
     // ------------------------------------------ POJO builders ------------------------------------------
 
-    private ItemEntity getItemEntity() {
-        final ItemEntity itemEntity = new ItemEntity();
-        final String itemId = UUID.randomUUID().toString();
-        itemEntity.setUuid(itemId);
-        itemEntity.setItemName("someItem");
-        itemEntity.setType(NON_VEG);
-        itemEntity.setPrice(200);
-        return itemEntity;
-    }
+//    private ItemEntity getItemEntity() {
+//        final ItemEntity itemEntity = new ItemEntity();
+//        final String itemId = UUID.randomUUID().toString();
+//        itemEntity.setUuid(itemId);
+//        itemEntity.setItemName("someItem");
+//        itemEntity.setType(NON_VEG);
+//        itemEntity.setPrice(200);
+//        return itemEntity;
+//    }
 
     private CategoryEntity getCategoryEntity() {
         final CategoryEntity categoryEntity = new CategoryEntity();
@@ -457,9 +462,9 @@ public class RestaurantControllerTest {
         final String restaurantId = UUID.randomUUID().toString();
         restaurantEntity.setUuid(restaurantId);
         restaurantEntity.setAddress(addressEntity);
-        restaurantEntity.setAvgPrice(123);
+        restaurantEntity.setAvgPriceForTwo(123);
         restaurantEntity.setCustomerRating(3.4);
-        restaurantEntity.setNumberCustomersRated(200);
+        restaurantEntity.setNumberOfCustomerRating(200);
         restaurantEntity.setPhotoUrl("someurl");
         restaurantEntity.setRestaurantName("Famous Restaurant");
         return restaurantEntity;

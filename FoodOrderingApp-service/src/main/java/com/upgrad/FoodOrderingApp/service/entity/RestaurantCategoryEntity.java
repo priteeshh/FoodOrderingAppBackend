@@ -5,8 +5,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "restaurant_category")
 @NamedQueries({
-        @NamedQuery(name = "getCategoriesByRestaurant", query = "select rc from RestaurantCategoryEntity rc where rc.restaurant.uuid =:restaurantUUID")
+        @NamedQuery(name = "getCategoriesByRestaurant", query = "select rc from RestaurantCategoryEntity rc where rc.restaurant.uuid =:restaurantUUID"),
+        @NamedQuery(name = "getRestaurantByCategory", query = "select rc from RestaurantCategoryEntity rc where rc.category.uuid =:categoryId")
 })
+
 public class RestaurantCategoryEntity {
 
     @Id
