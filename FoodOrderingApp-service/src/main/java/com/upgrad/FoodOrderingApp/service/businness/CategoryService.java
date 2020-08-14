@@ -5,8 +5,11 @@ import com.upgrad.FoodOrderingApp.service.entity.*;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
+import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class CategoryService {
@@ -28,5 +31,14 @@ public class CategoryService {
             throw new CategoryNotFoundException("CNF-002", "No category by this id");
         }
         return categoryEntity;
+    }
+
+    public List<CategoryEntity> getCategoriesByRestaurant(String restaurantId) {
+        List<RestaurantCategoryEntity> listRestaurantCategoryEntity = categoryDao.getCategoriesByRestaurant(restaurantId);
+        List<CategoryEntity> listCategoryEntity = new ArrayList<>();
+        for (RestaurantCategoryEntity rc : listRestaurantCategoryEntity) {
+            listCategoryEntity.add(rc.getCategory());
+        }
+        return listCategoryEntity;
     }
 }

@@ -1,6 +1,5 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -14,11 +13,11 @@ public class CategoryItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
     private ItemEntity item;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
@@ -36,6 +35,10 @@ public class CategoryItemEntity {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setItem(ItemEntity item) {

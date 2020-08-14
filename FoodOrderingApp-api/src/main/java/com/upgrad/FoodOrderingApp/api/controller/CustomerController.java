@@ -50,6 +50,9 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/customer/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LoginResponse> login(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
+        if(authorization.split("Basic ").length != 2){
+            throw new AuthenticationFailedException("ATH-003", "Incorrect format of decoded customer name and password");
+        }
         byte[] decode = Base64.getDecoder().decode(authorization.split("Basic ")[1]);
         String decodedCredentials = new String(decode);
         String[] credentials = decodedCredentials.split(":");
@@ -71,11 +74,9 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST, path = "/customer/logout", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LogoutResponse> logout(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
 
-        //TOD: Remove this:
-        //String authToken = authorization.split("Bearer ")[1];
-        CustomerAuthEntity customerAuthEntity = customerService.logout(authorization);
-        //TODO: Check or Include customer logged out, login again to ccess this endoint
-        //TODO: Check or Include Your session expired and login again to  access
+        String authToken = authorization.split("Bearer ")[1];
+        CustomerAuthEntity customerAuthEntity = customerService.logout(authToken);
+
         LogoutResponse logoutResponse = new LogoutResponse().id(customerAuthEntity.getCustomer().getUuid()).message("LOGGED OUT SUCCESSFULLY");
         return new ResponseEntity<LogoutResponse>(logoutResponse, HttpStatus.OK);
     }

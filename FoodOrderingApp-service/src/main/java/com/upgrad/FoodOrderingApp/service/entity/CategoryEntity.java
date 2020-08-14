@@ -15,12 +15,13 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "uuid", unique = true)
+    @Column(name = "uuid")
     @Size(max = 200)
     @NotNull
     private String uuid;
 
     @Column(name = "category_name")
+    @Size(max = 255)
     private String categoryName;
 
     public CategoryEntity() {
@@ -33,6 +34,10 @@ public class CategoryEntity {
     }
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUuid() {
