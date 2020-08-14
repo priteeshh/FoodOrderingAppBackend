@@ -40,8 +40,8 @@ public class RestaurantService {
         }
         List<RestaurantCategoryEntity> listRestaurantCategoryEntity = restaurantDao.getRestaurantByCategory(categoryId);
         List<RestaurantEntity> listRestaurantEntity = new ArrayList<>();
-        for (RestaurantCategoryEntity rc : listRestaurantCategoryEntity) {
-            listRestaurantEntity.add(rc.getRestaurant());
+        for (RestaurantCategoryEntity restaurantCategoryEntity : listRestaurantCategoryEntity) {
+            listRestaurantEntity.add(restaurantCategoryEntity.getRestaurant());
         }
         return listRestaurantEntity;
     }
