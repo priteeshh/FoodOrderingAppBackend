@@ -4,12 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "category_item")
+@NamedQueries({
+        @NamedQuery(name = "itemBycategoryUUID", query = "select ci from CategoryItemEntity ci where ci.category.uuid =:categoryUUID")
+})
 public class CategoryItemEntity {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id")
@@ -19,16 +21,24 @@ public class CategoryItemEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    public long getId() {
-        return id;
+    public CategoryItemEntity() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public CategoryItemEntity(ItemEntity item, CategoryEntity category) {
+        this.item = item;
+        this.category = category;
     }
 
     public ItemEntity getItem() {
         return item;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setItem(ItemEntity item) {
@@ -42,4 +52,5 @@ public class CategoryItemEntity {
     public void setCategory(CategoryEntity category) {
         this.category = category;
     }
+
 }

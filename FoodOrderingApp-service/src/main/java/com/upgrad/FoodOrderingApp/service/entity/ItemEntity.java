@@ -1,6 +1,7 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,15 @@ public class ItemEntity {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<RestaurantItemEntity> restaurantItem = new ArrayList<>();
+
+    public ItemEntity(){}
+
+    public ItemEntity(@Size(max = 200) @NotNull String uuid, @Size(max = 30) @NotNull String itemName, @NotNull Integer price, @Size(max = 10) @NotNull String type) {
+        this.uuid = uuid;
+        this.itemName = itemName;
+        this.price = price;
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;
