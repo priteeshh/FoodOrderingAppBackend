@@ -42,6 +42,24 @@ public class AddressEntity {
     @NotNull
     private Integer active;
 
+    @OneToOne(mappedBy = "address", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private RestaurantEntity restaurant;
+
+    public AddressEntity(@Size(max = 200) String uuid, @Size(max = 255) String flatBuildNo, @Size(max = 255) String locality, @Size(max = 39) String city, @Size(max = 30) String pincode, StateEntity state) {
+        this.id = 0;
+        this.uuid = uuid;
+        this.flatBuildingName = flatBuildNo;
+        this.locality = locality;
+        this.city = city;
+        this.pincode = pincode;
+        this.state = state;
+        this.active = 1;
+    }
+
+    public AddressEntity() {
+
+    }
+
     public Integer getId() {
         return id;
     }
