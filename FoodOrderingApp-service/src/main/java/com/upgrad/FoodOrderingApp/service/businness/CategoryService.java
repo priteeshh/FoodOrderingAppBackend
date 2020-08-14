@@ -36,9 +36,11 @@ public class CategoryService {
     public List<CategoryEntity> getCategoriesByRestaurant(String restaurantId) {
         List<RestaurantCategoryEntity> listRestaurantCategoryEntity = categoryDao.getCategoriesByRestaurant(restaurantId);
         List<CategoryEntity> listCategoryEntity = new ArrayList<>();
-        for (RestaurantCategoryEntity rc : listRestaurantCategoryEntity) {
-            listCategoryEntity.add(rc.getCategory());
+        for (RestaurantCategoryEntity restaurantCategoryEntity : listRestaurantCategoryEntity) {
+            listCategoryEntity.add(restaurantCategoryEntity.getCategory());
         }
         return listCategoryEntity;
     }
+
+
 }
