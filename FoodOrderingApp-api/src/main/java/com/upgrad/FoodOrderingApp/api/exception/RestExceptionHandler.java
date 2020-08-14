@@ -66,4 +66,11 @@ public class RestExceptionHandler {
         );
     }
 
+    @ExceptionHandler(InvalidRatingException.class)
+    public ResponseEntity<ErrorResponse> InvalidRatingException(InvalidRatingException exe, WebRequest request) {
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()), HttpStatus.BAD_REQUEST
+        );
+    }
+
 }
