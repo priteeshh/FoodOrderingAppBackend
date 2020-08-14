@@ -31,6 +31,8 @@ public class ItemEntity {
     @NotNull
     private String type;
 
+    public ItemEntity(){}
+
     public ItemEntity(@Size(max = 200) @NotNull String uuid, @Size(max = 30) @NotNull String itemName, @NotNull int price, @Size(max = 10) @NotNull String type) {
         this.uuid = uuid;
         this.itemName = itemName;

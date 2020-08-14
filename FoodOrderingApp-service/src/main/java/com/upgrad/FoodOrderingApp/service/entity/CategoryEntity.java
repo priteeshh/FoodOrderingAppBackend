@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "category")
+@NamedQueries({
+        @NamedQuery(name = "categoryOrderByName", query = "select c from CategoryEntity c order by c.categoryName")
+})
 public class CategoryEntity {
     @Id
     @Column(name = "id")
@@ -19,6 +22,9 @@ public class CategoryEntity {
 
     @Column(name = "category_name")
     private String categoryName;
+
+    public CategoryEntity() {
+    }
 
     public CategoryEntity(@Size(max =255) String uuid, @Size(max =255) String categoryName){
         this.uuid = uuid;
