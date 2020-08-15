@@ -20,4 +20,12 @@ public class ItemDao {
             return null;
         }
     }
+
+    public ItemEntity getItemByUUID(String uuid) {
+        try {
+            return entityManager.createNamedQuery("itemByUUID", ItemEntity.class).setParameter("uuid", uuid).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }
