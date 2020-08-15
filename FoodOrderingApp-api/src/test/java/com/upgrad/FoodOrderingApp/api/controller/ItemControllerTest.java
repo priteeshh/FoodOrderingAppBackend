@@ -45,7 +45,7 @@ public class ItemControllerTest {
     @Test
     public void shouldGetItemsByPopularity() throws Exception {
         final RestaurantEntity restaurantEntity = new RestaurantEntity();
-        when(mockRestaurantService.getRestaurantById("some_restaurant_id"))
+        when(mockRestaurantService.restaurantByUUID("some_restaurant_id"))
                 .thenReturn(restaurantEntity);
 
         final ItemEntity itemEntity = new ItemEntity();
@@ -71,7 +71,7 @@ public class ItemControllerTest {
     // but the restaurant id you gave does not exist.
     @Test
     public void shouldNotGetItemsByPopularityIfRestaurantDoesNOtExistForGivenId() throws Exception {
-        when(mockRestaurantService.getRestaurantById("some_restaurant_id"))
+        when(mockRestaurantService.restaurantByUUID("some_restaurant_id"))
                 .thenThrow(new RestaurantNotFoundException("RNF-001", "No restaurant by this id"));
 
         mockMvc
