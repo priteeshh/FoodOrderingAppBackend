@@ -10,8 +10,10 @@ import java.util.List;
 @Table(name = "item")
 @NamedQueries({
         @NamedQuery(name = "getItemsByCategoryRestaurant", query = "select p from ItemEntity p, CategoryItemEntity ci, RestaurantItemEntity ri where ri.item.uuid = p.uuid and ci.item.uuid = p.uuid and ci.category.uuid =:categoryId and ri.restaurant.uuid =:restaurantId" ),
-        @NamedQuery(name = "itemByUUID", query = "select ie from ItemEntity ie where ie.uuid =:uuid")
+        @NamedQuery(name = "itemByUUID", query = "select ie from ItemEntity ie where ie.uuid =:uuid"),
+        @NamedQuery(name = "getItemsByPopularity", query = "select c from ItemEntity c, RestaurantItemEntity ri where ri.restaurant.id = :restaurantId")
 })
+
 public class ItemEntity {
     @Id
     @Column(name = "id")
@@ -38,6 +40,9 @@ public class ItemEntity {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<RestaurantItemEntity> restaurantItem = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<OrderItemEntity> orderItem = new ArrayList<>();
 
     public ItemEntity(){}
 

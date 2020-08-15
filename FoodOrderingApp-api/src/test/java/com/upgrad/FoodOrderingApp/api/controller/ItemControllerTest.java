@@ -20,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.UUID;
 
-import static com.upgrad.FoodOrderingApp.service.common.ItemType.NON_VEG;
+//import static com.upgrad.FoodOrderingApp.service.common.ItemType.NON_VEG;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -44,13 +45,13 @@ public class ItemControllerTest {
     @Test
     public void shouldGetItemsByPopularity() throws Exception {
         final RestaurantEntity restaurantEntity = new RestaurantEntity();
-        when(mockRestaurantService.restaurantByUUID("some_restaurant_id"))
+        when(mockRestaurantService.getRestaurantById("some_restaurant_id"))
                 .thenReturn(restaurantEntity);
 
         final ItemEntity itemEntity = new ItemEntity();
         final String itemId = UUID.randomUUID().toString();
         itemEntity.setUuid(itemId);
-        itemEntity.setType(NON_VEG);
+        itemEntity.setType("1");
         when(mockItemService.getItemsByPopularity(restaurantEntity))
                 .thenReturn(Collections.singletonList(itemEntity));
 
@@ -70,7 +71,7 @@ public class ItemControllerTest {
     // but the restaurant id you gave does not exist.
     @Test
     public void shouldNotGetItemsByPopularityIfRestaurantDoesNOtExistForGivenId() throws Exception {
-        when(mockRestaurantService.restaurantByUUID("some_restaurant_id"))
+        when(mockRestaurantService.getRestaurantById("some_restaurant_id"))
                 .thenThrow(new RestaurantNotFoundException("RNF-001", "No restaurant by this id"));
 
         mockMvc

@@ -165,9 +165,7 @@ public class RestaurantController {
                 }else if(item.getType().equals("0")){
                     typeEnum = ItemList.ItemTypeEnum.VEG;
                 }
-                listItemList.add(new ItemList().id(UUID.fromString(item.getUuid())).itemName(item.getItemName())
-                        .itemType(typeEnum)
-                        .price(item.getPrice()));
+                listItemList.add(new ItemList().id(UUID.fromString(item.getUuid())).itemName(item.getItemName()).itemType(typeEnum).price(item.getPrice()));
             }
             listCategoryList.add(new CategoryList().id(UUID.fromString(c.getUuid())).categoryName(c.getCategoryName()).itemList(listItemList));
         }
