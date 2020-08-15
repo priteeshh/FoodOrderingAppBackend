@@ -4,10 +4,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "order_item", schema = "public")
+@NamedQueries(
+		{
+				@NamedQuery(name = "getOrderItems", query = "select oi from OrderItemEntity oi where oi.order =:order")
+		}
+)
 public class OrderItemEntity implements java.io.Serializable {
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -16,7 +22,7 @@ public class OrderItemEntity implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id", nullable = false)
-	private OrdersEntity ordersEntity;
+	private OrdersEntity order;
 
 	@Column(name = "quantity", nullable = false)
 	private int quantity;
@@ -27,10 +33,10 @@ public class OrderItemEntity implements java.io.Serializable {
 	public OrderItemEntity() {
 	}
 
-	public OrderItemEntity(int id, ItemEntity item, OrdersEntity ordersEntity, int quantity, int price) {
+	public OrderItemEntity(int id, ItemEntity item, OrdersEntity order, int quantity, int price) {
 		this.id = id;
 		this.item = item;
-		this.ordersEntity = ordersEntity;
+		this.order = order;
 		this.quantity = quantity;
 		this.price = price;
 	}
@@ -51,12 +57,12 @@ public class OrderItemEntity implements java.io.Serializable {
 		this.item = item;
 	}
 
-	public OrdersEntity getOrdersEntity() {
-		return this.ordersEntity;
+	public OrdersEntity getOrder() {
+		return this.order;
 	}
 
-	public void setOrdersEntity(OrdersEntity ordersEntity) {
-		this.ordersEntity = ordersEntity;
+	public void setOrder(OrdersEntity order) {
+		this.order = order;
 	}
 
 	public int getQuantity() {

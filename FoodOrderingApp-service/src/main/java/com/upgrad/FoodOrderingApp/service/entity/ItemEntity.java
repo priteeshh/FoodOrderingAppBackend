@@ -9,8 +9,8 @@ import java.util.List;
 @Entity
 @Table(name = "item")
 @NamedQueries({
-        @NamedQuery(name = "getItemsByCategoryRestaurant", query = "select p from ItemEntity p, CategoryItemEntity ci, RestaurantItemEntity ri where ri.item.uuid = p.uuid and ci.item.uuid = p.uuid and ci.category.uuid =:categoryId and ri.restaurant.uuid =:restaurantId" )
-
+        @NamedQuery(name = "getItemsByCategoryRestaurant", query = "select p from ItemEntity p, CategoryItemEntity ci, RestaurantItemEntity ri where ri.item.uuid = p.uuid and ci.item.uuid = p.uuid and ci.category.uuid =:categoryId and ri.restaurant.uuid =:restaurantId" ),
+        @NamedQuery(name = "itemByUuid", query = "select ie from ItemEntity ie where ie.uuid =:uuid")
 })
 public class ItemEntity {
     @Id

@@ -4,10 +4,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "payment", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
+@NamedQueries({
+        @NamedQuery(name = "allPaymentOptions", query = "select p from PaymentEntity p"),
+        @NamedQuery(name ="getPaymentByUUID", query = "select p from PaymentEntity p")
+
+})
 public class PaymentEntity implements java.io.Serializable {
 
     @Id
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "uuid", unique = true, nullable = false, length = 200)

@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class CouponEntity implements java.io.Serializable {
 
     @Id
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "uuid", unique = true, nullable = false, length = 200)
