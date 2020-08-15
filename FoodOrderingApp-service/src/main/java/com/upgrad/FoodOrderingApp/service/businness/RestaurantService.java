@@ -46,7 +46,7 @@ public class RestaurantService {
         return listRestaurantEntity;
     }
 
-    public RestaurantEntity getRestaurantById(String restaurantId) throws RestaurantNotFoundException {
+    public RestaurantEntity restaurantByUUID(String restaurantId) throws RestaurantNotFoundException {
         if(restaurantId == null || restaurantId == ""){
             throw new RestaurantNotFoundException("RNF-002","Restaurant id field should not be empty");
         }

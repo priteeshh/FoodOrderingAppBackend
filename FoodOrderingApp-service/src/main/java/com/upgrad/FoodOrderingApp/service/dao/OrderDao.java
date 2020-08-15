@@ -16,8 +16,7 @@ public class OrderDao {
 
     public List<OrderEntity> getOrdersByCustomer(CustomerEntity customerEntity) {
         try {
-            return entityManager.createNamedQuery("getAllOrders", OrderEntity.class).setParameter("customer", customerEntity).getResultList();
-            //return entityManager.createNamedQuery("getAllOrders", OrderEntity.class).getResultList();
+            return entityManager.createNamedQuery("allOrders", OrderEntity.class).setParameter("customer", customerEntity).getResultList();
         } catch (NoResultException nre) {
             return null;
         }
@@ -28,5 +27,12 @@ public class OrderDao {
         return orderEntity;
     }
 
+    public List<OrderEntity> getOrdersByCustomers(CustomerEntity customerEntity) {
+        try {
+            return entityManager.createNamedQuery("ordersByCustomer", OrderEntity.class).setParameter("customer", customerEntity).getResultList();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 
 }

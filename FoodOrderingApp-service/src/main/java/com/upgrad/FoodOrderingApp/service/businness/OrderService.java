@@ -1,6 +1,7 @@
 package com.upgrad.FoodOrderingApp.service.businness;
 
 import com.upgrad.FoodOrderingApp.service.dao.CouponDao;
+import com.upgrad.FoodOrderingApp.service.dao.CustomerDao;
 import com.upgrad.FoodOrderingApp.service.dao.OrderDao;
 import com.upgrad.FoodOrderingApp.service.dao.OrderItemDao;
 import com.upgrad.FoodOrderingApp.service.entity.CouponEntity;
@@ -27,7 +28,10 @@ public class OrderService {
     @Autowired
     private CouponDao couponDao;
 
-    public CouponEntity getAllCouponsByName(String couponName) throws CouponNotFoundException {
+    @Autowired
+    private CustomerDao customerDao;
+
+    public CouponEntity getCouponByCouponName(String couponName) throws CouponNotFoundException {
         CouponEntity categoryEntity = couponDao.getCouponByName(couponName);
         if (categoryEntity == null)
             throw new CouponNotFoundException("CPF-001", "No coupon by this name");
@@ -36,19 +40,13 @@ public class OrderService {
         return categoryEntity;
     }
 
-    public CouponEntity getCouponByUUID(String couponUUID) throws CouponNotFoundException {
+    public CouponEntity getCouponByCouponId(String couponUUID) throws CouponNotFoundException {
         CouponEntity couponEntity = couponDao.getCouponByUUID(couponUUID);
         if (couponEntity == null)
             throw new CouponNotFoundException("CPF-001", "No coupon by this name");
         if (couponUUID.isEmpty())
             throw new CouponNotFoundException("CPF-002", "Coupon name field should not be empty");
         return couponEntity;
-    }
-
-    public List<OrderEntity> getOrdersByCustomer(CustomerEntity customerEntity) {
-        List<OrderEntity> allOrders = orderDao.getOrdersByCustomer(customerEntity);
-        return allOrders;
-
     }
 
     public List<OrderItemEntity> getOrderItems(OrderEntity orderEntity) {
@@ -64,6 +62,10 @@ public class OrderService {
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity) {
         return orderItemDao.createOrderItemEntity(orderItemEntity);
+    }
+
+    public List<OrderEntity> getOrdersByCustomers(String customerUUID) {
+        return orderDao.getOrdersByCustomers(customerDao.getCustomerByUUID(customerUUID));
     }
 
 }

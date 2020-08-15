@@ -9,7 +9,9 @@ import java.util.List;
 @Entity
 @Table(name = "customer")
 @NamedQueries({
-        @NamedQuery(name = "getCustomerByContactNumber", query = "select c from CustomerEntity c where c.contact_number = :contact_number")
+        @NamedQuery(name = "getCustomerByContactNumber", query = "select c from CustomerEntity c where c.contact_number = :contact_number"),
+        @NamedQuery(name = "customerByUUID", query = "select c from CustomerEntity c where c.uuid = :uuid"),
+
 })
 public class CustomerEntity {
     @Id

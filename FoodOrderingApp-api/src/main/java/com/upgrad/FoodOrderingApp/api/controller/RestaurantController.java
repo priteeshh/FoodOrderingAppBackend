@@ -19,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -151,7 +150,7 @@ public class RestaurantController {
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantDetailsResponse> getRestaurantById(@PathVariable("restaurant_id") String restaurantId) throws RestaurantNotFoundException {
 
-        RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(restaurantId);
+        RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(restaurantId);
         List<CategoryEntity> allCategory = categoryService.getCategoriesByRestaurant(restaurantEntity.getUuid());
 
         List<CategoryList> listCategoryList = new ArrayList<>();
@@ -199,7 +198,7 @@ public class RestaurantController {
         if (resttId == null || resttId.isEmpty()) {
             throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
         }
-        RestaurantEntity restaurantEntity = restaurantService.getRestaurantById(resttId);
+        RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(resttId);
         RestaurantEntity updateRestaurantEntity = restaurantService.updateRestaurantRating(restaurantEntity, customerRating);
         RestaurantUpdatedResponse restaurantUpdatedResponse = new RestaurantUpdatedResponse().id(UUID.fromString(resttId)).status("RESTAURANT RATING UPDATED SUCCESSFULLY");
         return new ResponseEntity<RestaurantUpdatedResponse>(restaurantUpdatedResponse, HttpStatus.OK);
