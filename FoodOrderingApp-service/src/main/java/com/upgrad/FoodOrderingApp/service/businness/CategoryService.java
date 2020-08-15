@@ -17,7 +17,7 @@ public class CategoryService {
     @Autowired
     private CategoryDao categoryDao;
 
-    public List<CategoryEntity> getAllCategoriesOrderByName() {
+    public List<CategoryEntity> getAllCategoriesOrderedByName() {
         List<CategoryEntity> categoryEntity = categoryDao.getCategoryOrderedByName();
         return categoryEntity;
     }

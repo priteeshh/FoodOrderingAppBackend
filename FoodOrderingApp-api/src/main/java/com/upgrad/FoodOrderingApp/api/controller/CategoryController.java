@@ -37,8 +37,8 @@ public class CategoryController {
     @RequestMapping(method = RequestMethod.GET, path = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CategoriesListResponse> getAllCategories() {
 
-        List<CategoryEntity> categoryEntities = categoryService.getAllCategoriesOrderByName();
-        List<CategoryListResponse> categoriesList = new LinkedList<>();
+        List<CategoryEntity> categoryEntities = categoryService.getAllCategoriesOrderedByName();
+        CategoriesListResponse categoriesListResponse = new CategoriesListResponse();
 
         categoryEntities.forEach(catEnt -> {
             CategoryListResponse categoryListResponse = new CategoryListResponse()
