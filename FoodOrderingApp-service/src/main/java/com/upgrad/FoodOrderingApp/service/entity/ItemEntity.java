@@ -87,5 +87,21 @@ public class ItemEntity {
     public void setType(String type) {
         this.type = type;
     }
+
+    public List<CategoryItemEntity> getCategoryItem() {
+        return categoryItem;
+    }
+
+    public void setCategoryItem(List<CategoryItemEntity> categoryItem) {
+        this.categoryItem = categoryItem;
+    }
+
+    public List<RestaurantItemEntity> getRestaurantItem() {
+        return restaurantItem;
+    }
+
+    public void setRestaurantItem(List<RestaurantItemEntity> restaurantItem) {
+        this.restaurantItem = restaurantItem;
+    }
 }
 

@@ -17,12 +17,12 @@ public class CategoryService {
     @Autowired
     private CategoryDao categoryDao;
 
-    public List<CategoryEntity> getAllCategoriesOrderByName() {
+    public List<CategoryEntity> getAllCategoriesOrderedByName() {
         List<CategoryEntity> categoryEntity = categoryDao.getCategoryOrderedByName();
         return categoryEntity;
     }
 
-    public List<CategoryItemEntity> getCategoryById(String uuid) throws CategoryNotFoundException {
+    public List<CategoryItemEntity> getCategoryItemById(String uuid) throws CategoryNotFoundException {
         List<CategoryItemEntity> categoryEntity = categoryDao.getAllItemsForCategory(uuid);
         if (uuid.isEmpty()) {
             throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
@@ -32,6 +32,22 @@ public class CategoryService {
         }
         return categoryEntity;
     }
+
+
+    public CategoryEntity getCategoryById(String categoryUuid) throws CategoryNotFoundException {
+        if (categoryUuid.equals("")) {
+            throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
+        }
+
+        CategoryEntity categoryEntity = categoryDao.getCategoryById(categoryUuid);
+
+        if (categoryEntity == null) {
+            throw new CategoryNotFoundException("CNF-002", "No category by this id");
+        }
+
+        return categoryEntity;
+    }
+
 
     public List<CategoryEntity> getCategoriesByRestaurant(String restaurantId) {
         List<RestaurantCategoryEntity> listRestaurantCategoryEntity = categoryDao.getCategoriesByRestaurant(restaurantId);

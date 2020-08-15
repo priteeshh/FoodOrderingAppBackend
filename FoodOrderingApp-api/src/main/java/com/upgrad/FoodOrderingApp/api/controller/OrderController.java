@@ -42,9 +42,9 @@ public class OrderController {
     public ResponseEntity<CouponDetailsResponse> getCoupon(@RequestHeader("authorization") final String authorization,
                                                            @PathVariable("coupon_name") String couponName) throws AuthorizationFailedException, CouponNotFoundException {
 
-        String authToken = authorization.split("Bearer ")[1];
-        customerService.getAuthCustomer(authToken);
-        CouponEntity coupon = orderService.getAllCouponsByName(couponName);
+        String accessToken = authorization.split("Bearer ")[1];
+        customerService.getCustomer(accessToken);
+        CouponEntity coupon = orderService.getCouponByCouponName(couponName);
         CouponDetailsResponse custDetailsRes = new CouponDetailsResponse()
                 .couponName(coupon.getCouponName())
                 .id(UUID.fromString(coupon.getUuid()))
@@ -60,7 +60,7 @@ public class OrderController {
         String authToken = authorization.split("Bearer ")[1];
         CustomerEntity customerEntity = customerService.getCustomer(authToken);
         List<OrderList> orderLists = new LinkedList<>();
-        List<OrderEntity> allOrders = orderService.getOrdersByCustomer(customerEntity);
+        List<OrderEntity> allOrders = orderService.getOrdersByCustomers(customerEntity.getUuid());
         allOrders.forEach(order -> {
                     List<OrderItemEntity> orderItemEntity = orderService.getOrderItems(order);
                     List<ItemQuantityResponse> itemQtyRes = new ArrayList<>();
@@ -124,13 +124,13 @@ public class OrderController {
 
         final OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUuid(UUID.randomUUID().toString());
-        orderEntity.setCouponEntity(orderService.getCouponByUUID(saveOrderRequest.getCouponId().toString()));
+        orderEntity.setCouponEntity(orderService.getCouponByCouponId(saveOrderRequest.getCouponId().toString()));
         orderEntity.setPaymentEntity(paymentService.getPaymentByUUID(saveOrderRequest.getPaymentId().toString()));
         orderEntity.setCustomer(customerEntity);
         orderEntity.setAddress(addressService.getAddressByUUID(saveOrderRequest.getAddressId(), customerEntity));
         orderEntity.setBill(saveOrderRequest.getBill());
         orderEntity.setDiscount(saveOrderRequest.getDiscount());
-        orderEntity.setRestaurant(restaurantService.getRestaurantById(saveOrderRequest.getRestaurantId().toString()));
+        orderEntity.setRestaurant(restaurantService.restaurantByUUID(saveOrderRequest.getRestaurantId().toString()));
         orderEntity.setDate(new Date());
         OrderEntity savedOrderEntity = orderService.saveOrder(orderEntity);
 

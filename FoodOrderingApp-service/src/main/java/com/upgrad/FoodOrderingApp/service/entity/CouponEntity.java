@@ -28,9 +28,9 @@ public class CouponEntity implements java.io.Serializable {
     public CouponEntity() {
     }
 
-    public CouponEntity(int id, String uuid, int percent) {
-        this.id = id;
+    public CouponEntity(String uuid, String couponName, int percent) {
         this.uuid = uuid;
+        this.couponName = couponName;
         this.percent = percent;
     }
 

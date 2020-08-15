@@ -26,13 +26,7 @@ public class PaymentEntity implements java.io.Serializable {
     public PaymentEntity() {
     }
 
-    public PaymentEntity(int id, String uuid) {
-        this.id = id;
-        this.uuid = uuid;
-    }
-
-    public PaymentEntity(int id, String uuid, String paymentName) {
-        this.id = id;
+    public PaymentEntity(String uuid, String paymentName) {
         this.uuid = uuid;
         this.paymentName = paymentName;
     }
