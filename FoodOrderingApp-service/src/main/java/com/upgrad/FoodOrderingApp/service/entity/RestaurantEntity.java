@@ -41,6 +41,20 @@ public class RestaurantEntity {
     @JoinColumn(name = "address_id")
     private AddressEntity address;
 
+    public RestaurantEntity() {
+    }
+
+    public RestaurantEntity(int id, AddressEntity address, String uuid, String restaurantName, Double customerRating,
+                            int avgPriceForTwo, int numberOfCustomersRated) {
+        this.id = id;
+        this.address = address;
+        this.uuid = uuid;
+        this.restaurantName = restaurantName;
+        this.customerRating = customerRating;
+        this.avgPriceForTwo = avgPriceForTwo;
+        this.numberOfCustomerRating = numberOfCustomerRating;
+    }
+
     public Integer getId() {
         return id;
     }
