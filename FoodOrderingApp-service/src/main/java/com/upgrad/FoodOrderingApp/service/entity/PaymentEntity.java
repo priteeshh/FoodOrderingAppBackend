@@ -6,7 +6,8 @@ import javax.persistence.*;
 @Table(name = "payment", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
 @NamedQueries({
         @NamedQuery(name = "allPaymentOptions", query = "select p from PaymentEntity p"),
-        @NamedQuery(name ="getPaymentByUUID", query = "select p from PaymentEntity p")
+        @NamedQuery(name ="getPaymentByUUID", query = "select p from PaymentEntity p where p.uuid =:paymentUUID")
+
 
 })
 public class PaymentEntity implements java.io.Serializable {
