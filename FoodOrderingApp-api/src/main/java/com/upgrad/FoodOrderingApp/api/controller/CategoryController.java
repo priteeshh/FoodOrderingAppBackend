@@ -36,9 +36,6 @@ public class CategoryController {
     @RequestMapping(method = RequestMethod.GET, path = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CategoriesListResponse> getAllCategories(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, CategoryNotFoundException {
 
-        String authToken = authorization.split("Bearer ")[1];
-        customerService.getAuthCustomer(authToken);
-
         List<CategoryEntity> categoryEntities = categoryService.getAllCategoriesOrderByName();
         List<CategoryListResponse> categoriesList = new LinkedList<>();
 
@@ -58,7 +55,7 @@ public class CategoryController {
         String authToken = authorization.split("Bearer ")[1];
         customerService.getAuthCustomer(authToken);
 
-        List<CategoryItemEntity> CategoryEntity=categoryService.getAllItemsForCategory(categoryId);
+        List<CategoryItemEntity> CategoryEntity=categoryService.getCategoryById(categoryId);
 
         List<ItemList> itemLists = new ArrayList<>();
         CategoryEntity.forEach(ele -> {

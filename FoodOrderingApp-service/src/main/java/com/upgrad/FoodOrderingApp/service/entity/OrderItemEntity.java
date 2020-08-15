@@ -22,7 +22,7 @@ public class OrderItemEntity implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id", nullable = false)
-	private OrdersEntity order;
+	private OrderEntity order;
 
 	@Column(name = "quantity", nullable = false)
 	private int quantity;
@@ -33,7 +33,7 @@ public class OrderItemEntity implements java.io.Serializable {
 	public OrderItemEntity() {
 	}
 
-	public OrderItemEntity(int id, ItemEntity item, OrdersEntity order, int quantity, int price) {
+	public OrderItemEntity(int id, ItemEntity item, OrderEntity order, int quantity, int price) {
 		this.id = id;
 		this.item = item;
 		this.order = order;
@@ -57,11 +57,11 @@ public class OrderItemEntity implements java.io.Serializable {
 		this.item = item;
 	}
 
-	public OrdersEntity getOrder() {
+	public OrderEntity getOrder() {
 		return this.order;
 	}
 
-	public void setOrder(OrdersEntity order) {
+	public void setOrder(OrderEntity order) {
 		this.order = order;
 	}
 

@@ -8,10 +8,10 @@ import java.util.Date;
 @Table(name = "orders", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
 @NamedQueries(
 		{
-				@NamedQuery(name = "getAllOrders", query = "select o from OrdersEntity o where o.customer =:customer order by o.date desc")
+				@NamedQuery(name = "getAllOrders", query = "select o from OrderEntity o where o.customer =:customer order by o.date desc")
 		}
 )
-public class OrdersEntity implements java.io.Serializable {
+public class OrderEntity implements java.io.Serializable {
 
 	@Id
 	@Column(name = "id")
@@ -51,11 +51,11 @@ public class OrdersEntity implements java.io.Serializable {
 	@Column(name = "date", nullable = false)
 	private Date date;
 
-	public OrdersEntity() {
+	public OrderEntity() {
 	}
 
-	public OrdersEntity(int id, AddressEntity address, CustomerEntity customer, RestaurantEntity restaurant, String uuid, BigDecimal bill,
-                        Date date) {
+	public OrderEntity(int id, AddressEntity address, CustomerEntity customer, RestaurantEntity restaurant, String uuid, BigDecimal bill,
+					   Date date) {
 		this.id = id;
 		this.address = address;
 		this.customer = customer;

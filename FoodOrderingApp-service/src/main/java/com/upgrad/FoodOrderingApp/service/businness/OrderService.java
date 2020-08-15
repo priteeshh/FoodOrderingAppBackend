@@ -5,8 +5,8 @@ import com.upgrad.FoodOrderingApp.service.dao.OrderDao;
 import com.upgrad.FoodOrderingApp.service.dao.OrderItemDao;
 import com.upgrad.FoodOrderingApp.service.entity.CouponEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
+import com.upgrad.FoodOrderingApp.service.entity.OrderEntity;
 import com.upgrad.FoodOrderingApp.service.entity.OrderItemEntity;
-import com.upgrad.FoodOrderingApp.service.entity.OrdersEntity;
 import com.upgrad.FoodOrderingApp.service.exception.CouponNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,19 +45,19 @@ public class OrderService {
         return couponEntity;
     }
 
-    public List<OrdersEntity> getOrdersByCustomer(CustomerEntity customerEntity) {
-        List<OrdersEntity> allOrders = orderDao.getOrdersByCustomer(customerEntity);
+    public List<OrderEntity> getOrdersByCustomer(CustomerEntity customerEntity) {
+        List<OrderEntity> allOrders = orderDao.getOrdersByCustomer(customerEntity);
         return allOrders;
 
     }
 
-    public List<OrderItemEntity> getOrderItems(OrdersEntity ordersEntity) {
-        List<OrderItemEntity> orderItemEntities = orderItemDao.getOrderItems(ordersEntity);
+    public List<OrderItemEntity> getOrderItems(OrderEntity orderEntity) {
+        List<OrderItemEntity> orderItemEntities = orderItemDao.getOrderItems(orderEntity);
         return orderItemEntities;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public OrdersEntity saveOrder(OrdersEntity orderEntity) {
+    public OrderEntity saveOrder(OrderEntity orderEntity) {
         return orderDao.createOrder(orderEntity);
     }
 

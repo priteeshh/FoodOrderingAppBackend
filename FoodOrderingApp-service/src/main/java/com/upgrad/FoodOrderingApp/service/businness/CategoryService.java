@@ -22,7 +22,7 @@ public class CategoryService {
         return categoryEntity;
     }
 
-    public List<CategoryItemEntity> getAllItemsForCategory(String uuid) throws CategoryNotFoundException {
+    public List<CategoryItemEntity> getCategoryById(String uuid) throws CategoryNotFoundException {
         List<CategoryItemEntity> categoryEntity = categoryDao.getAllItemsForCategory(uuid);
         if (uuid.isEmpty()) {
             throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
