@@ -32,7 +32,7 @@ public class ItemDao {
 
     public List<ItemEntity> getItemsByPopularity(Integer restaurantId) {
         try {
-            List<ItemEntity> listItemEntity = entityManager.createNamedQuery("getItemsByPopularity", ItemEntity.class).setParameter("restaurantId", restaurantId).getResultList();
+            List<ItemEntity> listItemEntity = entityManager.createNamedQuery("restaurantItems", ItemEntity.class).setParameter("restaurantId", restaurantId).setMaxResults(5).getResultList();
             List<ItemEntity> topFiveListItemEntity = new ArrayList<>();
             int listSize = listItemEntity.size();
             if (listSize > 0) {

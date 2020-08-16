@@ -36,13 +36,11 @@ public class ItemController {
         List<ItemEntity> listEntity = itemService.getItemsByPopularity(restaurantEntity);
         ArrayList<ItemList> listItemList = new ArrayList<>();
         for (ItemEntity item : listEntity) {
-            ItemList.ItemTypeEnum typeEnum = null;
-            if(item.getType().equals("1")){
-                typeEnum = ItemList.ItemTypeEnum.NON_VEG;
-            }else if(item.getType().equals("0")){
-                typeEnum = ItemList.ItemTypeEnum.VEG;
-            }
-            listItemList.add(new ItemList().id(UUID.fromString(item.getUuid())).price(item.getPrice()).itemName(item.getItemName()).itemType(typeEnum));
+            listItemList.add(new ItemList()
+                    .id(UUID.fromString(item.getUuid()))
+                    .price(item.getPrice())
+                    .itemName(item.getItemName())
+                    .itemType(ItemList.ItemTypeEnum.values()[Integer.parseInt(item.getType())]));
         }
         ItemListResponse listItemResponse = new ItemListResponse();
         listItemResponse.addAll(0, listItemList);

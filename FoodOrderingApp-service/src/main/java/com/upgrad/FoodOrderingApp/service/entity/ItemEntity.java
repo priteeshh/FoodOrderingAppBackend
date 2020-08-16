@@ -11,7 +11,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "getItemsByCategoryRestaurant", query = "select p from ItemEntity p, CategoryItemEntity ci, RestaurantItemEntity ri where ri.item.uuid = p.uuid and ci.item.uuid = p.uuid and ci.category.uuid =:categoryId and ri.restaurant.uuid =:restaurantId" ),
         @NamedQuery(name = "itemByUUID", query = "select ie from ItemEntity ie where ie.uuid =:uuid"),
-        @NamedQuery(name = "getItemsByPopularity", query = "select c from ItemEntity c, RestaurantItemEntity ri where ri.restaurant.id = :restaurantId")
+        @NamedQuery(name = "restaurantItems",query = "select c from ItemEntity c, RestaurantItemEntity ri where ri.restaurant.id = :restaurantId")
 })
 
 public class ItemEntity {
