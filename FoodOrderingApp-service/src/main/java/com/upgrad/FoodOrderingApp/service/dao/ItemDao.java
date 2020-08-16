@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -24,6 +25,20 @@ public class ItemDao {
     public ItemEntity getItemByUUID(String uuid) {
         try {
             return entityManager.createNamedQuery("itemByUUID", ItemEntity.class).setParameter("uuid", uuid).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public List<ItemEntity> getItemsByPopularity(Integer restaurantId) {
+        try {
+            List<ItemEntity> listItemEntity = entityManager.createNamedQuery("getItemsByPopularity", ItemEntity.class).setParameter("restaurantId", restaurantId).getResultList();
+            List<ItemEntity> topFiveListItemEntity = new ArrayList<>();
+            int listSize = listItemEntity.size();
+            if (listSize > 0) {
+                topFiveListItemEntity.addAll(listItemEntity.subList(0, Math.min(listSize, 5)));
+            }
+            return topFiveListItemEntity;
         } catch (NoResultException nre) {
             return null;
         }
