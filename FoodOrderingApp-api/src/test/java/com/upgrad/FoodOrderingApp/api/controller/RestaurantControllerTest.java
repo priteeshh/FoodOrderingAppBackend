@@ -64,7 +64,7 @@ public class RestaurantControllerTest {
                 .thenReturn(restaurantEntity);
 
         final CategoryEntity categoryEntity = getCategoryEntity();
-        when(mockCategoryService.getCategoriesByRestaurant("someRestaurantId"))
+        when(mockCategoryService.getCategoriesByRestaurant(mockRestaurantService.restaurantByUUID("someRestaurantId").getUuid()))
                 .thenReturn(Collections.singletonList(categoryEntity));
 
         final ItemEntity itemEntity = getItemEntity();
@@ -78,10 +78,10 @@ public class RestaurantControllerTest {
                 .andExpect(jsonPath("restaurant_name").value("Famous Restaurant"))
                 .andExpect(jsonPath("customer_rating").value(3.4))
                 .andExpect(jsonPath("number_customers_rated").value(200));
-        verify(mockRestaurantService, times(1)).restaurantByUUID("someRestaurantId");
-//        verify(mockCategoryService, times(1)).getCategoriesByRestaurant("someRestaurantId");
-//        verify(mockItemService, times(1))
-//                .getItemsByCategoryAndRestaurant("someRestaurantId", categoryEntity.getUuid());
+        verify(mockRestaurantService, times(2)).restaurantByUUID("someRestaurantId");
+        verify(mockCategoryService, times(1)).getCategoriesByRestaurant(restaurantEntity.getUuid());
+        verify(mockItemService, times(1))
+                .getItemsByCategoryAndRestaurant("someRestaurantId", categoryEntity.getUuid());
     }
 
 
