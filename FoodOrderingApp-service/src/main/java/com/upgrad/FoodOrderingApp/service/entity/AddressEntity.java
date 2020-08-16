@@ -4,6 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
+/**
+ * The type Address entity for address table.
+ */
 @Entity
 @Table(name = "address")
 public class AddressEntity {

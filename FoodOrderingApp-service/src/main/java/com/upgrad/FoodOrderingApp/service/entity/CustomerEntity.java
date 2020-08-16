@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Customer entity for customer table.
+ */
 @Entity
 @Table(name = "customer")
 @NamedQueries({

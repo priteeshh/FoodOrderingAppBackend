@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * The type Order service.
+ */
 @Service
 public class OrderService {
 
@@ -31,6 +34,13 @@ public class OrderService {
     @Autowired
     private CustomerDao customerDao;
 
+    /**
+     * Gets coupon by coupon name.
+     *
+     * @param couponName the coupon name
+     * @return the coupon by coupon name
+     * @throws CouponNotFoundException the coupon not found exception
+     */
     public CouponEntity getCouponByCouponName(String couponName) throws CouponNotFoundException {
         CouponEntity categoryEntity = couponDao.getCouponByName(couponName);
         if (categoryEntity == null)
@@ -40,6 +50,13 @@ public class OrderService {
         return categoryEntity;
     }
 
+    /**
+     * Gets coupon by coupon id.
+     *
+     * @param couponUUID the coupon uuid
+     * @return the coupon by coupon id
+     * @throws CouponNotFoundException the coupon not found exception
+     */
     public CouponEntity getCouponByCouponId(String couponUUID) throws CouponNotFoundException {
         CouponEntity couponEntity = couponDao.getCouponByUUID(couponUUID);
         if (couponEntity == null)
@@ -49,21 +66,45 @@ public class OrderService {
         return couponEntity;
     }
 
+    /**
+     * Gets order items.
+     *
+     * @param orderEntity the order entity
+     * @return the order items
+     */
     public List<OrderItemEntity> getOrderItems(OrderEntity orderEntity) {
         List<OrderItemEntity> orderItemEntities = orderItemDao.getOrderItems(orderEntity);
         return orderItemEntities;
     }
 
+    /**
+     * Save order order entity.
+     *
+     * @param orderEntity the order entity
+     * @return the order entity
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderEntity saveOrder(OrderEntity orderEntity) {
         return orderDao.createOrder(orderEntity);
     }
 
+    /**
+     * Save order item order item entity.
+     *
+     * @param orderItemEntity the order item entity
+     * @return the order item entity
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity) {
         return orderItemDao.createOrderItemEntity(orderItemEntity);
     }
 
+    /**
+     * Gets orders by customers.
+     *
+     * @param customerUUID the customer uuid
+     * @return the orders by customers
+     */
     public List<OrderEntity> getOrdersByCustomers(String customerUUID) {
         return orderDao.getOrdersByCustomers(customerDao.getCustomerByUUID(customerUUID));
     }

@@ -2,6 +2,9 @@ package com.upgrad.FoodOrderingApp.service.entity;
 
 import javax.persistence.*;
 
+/**
+ * The type CategoryItem entity for category_item table.
+ */
 @Entity
 @Table(name = "category_item")
 @NamedQueries({

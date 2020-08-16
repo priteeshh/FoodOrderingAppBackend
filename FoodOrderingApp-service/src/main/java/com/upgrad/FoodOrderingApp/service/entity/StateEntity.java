@@ -3,6 +3,9 @@ package com.upgrad.FoodOrderingApp.service.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+/**
+ * The type State entity for state table.
+ */
 @Entity
 @Table(name = "state")
 @NamedQueries({

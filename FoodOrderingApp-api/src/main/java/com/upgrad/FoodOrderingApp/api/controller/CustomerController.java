@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Base64;
 import java.util.UUID;
 
+/**
+ * The type Customer controller.
+ */
 @RestController
 @RequestMapping("/")
 public class CustomerController {
@@ -27,6 +30,13 @@ public class CustomerController {
     private CustomerService customerService;
 
 
+    /**
+     * Signup response entity.
+     *
+     * @param signupCustomerRequest the signup customer request
+     * @return the response entity
+     * @throws SignUpRestrictedException the sign up restricted exception
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/customer/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupCustomerResponse> signup(@RequestBody final SignupCustomerRequest signupCustomerRequest) throws SignUpRestrictedException {
         if (signupCustomerRequest.getFirstName() == null || signupCustomerRequest.getFirstName().isEmpty() ||
@@ -48,6 +58,13 @@ public class CustomerController {
         return new ResponseEntity<SignupCustomerResponse>(signupCustomerResponse, HttpStatus.CREATED);
     }
 
+    /**
+     * Login response entity.
+     *
+     * @param authorization the authorization
+     * @return the response entity
+     * @throws AuthenticationFailedException the authentication failed exception
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/customer/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LoginResponse> login(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
         if(authorization.split("Basic ").length != 2){
@@ -71,6 +88,13 @@ public class CustomerController {
         return new ResponseEntity<LoginResponse>(loginResponse,headers, HttpStatus.OK);
     }
 
+    /**
+     * Logout response entity.
+     *
+     * @param authorization the authorization
+     * @return the response entity
+     * @throws AuthorizationFailedException the authorization failed exception
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/customer/logout", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LogoutResponse> logout(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
 
@@ -80,6 +104,16 @@ public class CustomerController {
         LogoutResponse logoutResponse = new LogoutResponse().id(customerAuthEntity.getCustomer().getUuid()).message("LOGGED OUT SUCCESSFULLY");
         return new ResponseEntity<LogoutResponse>(logoutResponse, HttpStatus.OK);
     }
+
+    /**
+     * Update customer details response entity.
+     *
+     * @param authorization         the authorization
+     * @param updateCustomerRequest the update customer request
+     * @return the response entity
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws UpdateCustomerException      the update customer exception
+     */
     @RequestMapping(method = RequestMethod.PUT, path = "/customer", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdateCustomerResponse> updateCustomerDetails(@RequestHeader("authorization") final String authorization, @RequestBody final UpdateCustomerRequest updateCustomerRequest) throws AuthorizationFailedException, UpdateCustomerException {
         if(updateCustomerRequest.getFirstName() == null || updateCustomerRequest.getFirstName() == ""){
@@ -96,6 +130,16 @@ public class CustomerController {
         return new ResponseEntity<UpdateCustomerResponse>(updateCustomerResponse, HttpStatus.OK);
     }
 
+    /**
+     * Update password response entity.
+     *
+     * @param authorization         the authorization
+     * @param updatePasswordRequest the update password request
+     * @return the response entity
+     * @throws AuthorizationFailedException  the authorization failed exception
+     * @throws AuthenticationFailedException the authentication failed exception
+     * @throws UpdateCustomerException       the update customer exception
+     */
     @RequestMapping(method = RequestMethod.PUT, path = "/customer/password", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdatePasswordResponse> updatePassword(@RequestHeader("authorization") final String authorization, @RequestBody final UpdatePasswordRequest updatePasswordRequest) throws AuthorizationFailedException, AuthenticationFailedException, UpdateCustomerException {
         if(updatePasswordRequest.getOldPassword() == null || updatePasswordRequest.getOldPassword() == "" ||

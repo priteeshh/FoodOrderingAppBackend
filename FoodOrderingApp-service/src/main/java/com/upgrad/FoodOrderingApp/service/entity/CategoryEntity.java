@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Category entity for category table.
+ */
 @Entity
 @Table(name = "category")
 @NamedQueries({

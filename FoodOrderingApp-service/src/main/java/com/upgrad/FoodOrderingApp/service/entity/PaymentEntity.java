@@ -2,6 +2,9 @@ package com.upgrad.FoodOrderingApp.service.entity;// default package
 
 import javax.persistence.*;
 
+/**
+ * The type Payment entity for payment table.
+ */
 @Entity
 @Table(name = "payment", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
 @NamedQueries({

@@ -15,17 +15,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Restaurant service.
+ */
 @Service
 public class RestaurantService {
 
     @Autowired
     private RestaurantDao restaurantDao;
 
+    /**
+     * Restaurants by rating list.
+     *
+     * @return the list
+     */
     public List<RestaurantEntity> restaurantsByRating(){
         List<RestaurantEntity> restaurantEntityList = restaurantDao.getAllRestaurants();
         return restaurantEntityList;
     }
 
+    /**
+     * Gets restaurant by name.
+     *
+     * @param searchName the search name
+     * @return the restaurant by name
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     */
     public List<RestaurantEntity> getRestaurantByName(String searchName) throws RestaurantNotFoundException {
         if(searchName == null || searchName == ""){
             throw new RestaurantNotFoundException("RNF-003","Restaurant name field should not be empty");
@@ -34,6 +49,14 @@ public class RestaurantService {
         return restaurantEntityList;
     }
 
+    /**
+     * Gets restaurant by category.
+     *
+     * @param categoryId the category id
+     * @return the restaurant by category
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     * @throws CategoryNotFoundException   the category not found exception
+     */
     public List<RestaurantEntity> getRestaurantByCategory(String categoryId) throws RestaurantNotFoundException, CategoryNotFoundException {
         if(categoryId == null || categoryId == ""){
             throw new CategoryNotFoundException("CNF-001","Category id field should not be empty");
@@ -46,6 +69,13 @@ public class RestaurantService {
         return listRestaurantEntity;
     }
 
+    /**
+     * Restaurant by uuid restaurant entity.
+     *
+     * @param restaurantId the restaurant id
+     * @return the restaurant entity
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     */
     public RestaurantEntity restaurantByUUID(String restaurantId) throws RestaurantNotFoundException {
         if(restaurantId == null || restaurantId == ""){
             throw new RestaurantNotFoundException("RNF-002","Restaurant id field should not be empty");
@@ -57,6 +87,14 @@ public class RestaurantService {
         return restaurantEntity;
     }
 
+    /**
+     * Update restaurant rating restaurant entity.
+     *
+     * @param restaurantEntity the restaurant entity
+     * @param customerRating   the customer rating
+     * @return the restaurant entity
+     * @throws InvalidRatingException the invalid rating exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public RestaurantEntity updateRestaurantRating(RestaurantEntity restaurantEntity, Double customerRating) throws InvalidRatingException {
         if (customerRating == null || customerRating < 1.0 || customerRating > 5.0) {

@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The type Restaurant controller.
+ */
 @RestController
 @RequestMapping("/")
 public class RestaurantController {
@@ -40,6 +43,11 @@ public class RestaurantController {
     @Autowired
     private CustomerService customerService;
 
+    /**
+     * Get all restaurants
+     *
+     * @return the response entity
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantListResponse> getAllRestaurants(){
         List<RestaurantEntity> allRestaurants = restaurantService.restaurantsByRating();
@@ -75,6 +83,13 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantListResponse, HttpStatus.OK);
     }
 
+    /**
+     * Gets restaurant by name.
+     *
+     * @param restaurantName the restaurant name
+     * @return the restaurant by name
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/name/{restaurant_name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantListResponse> getRestaurantByName(@PathVariable("restaurant_name") String restaurantName) throws RestaurantNotFoundException {
 
@@ -112,6 +127,14 @@ public class RestaurantController {
 
     }
 
+    /**
+     * Gets restaurant by category id.
+     *
+     * @param categoryId the category id
+     * @return the restaurant by category id
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     * @throws CategoryNotFoundException   the category not found exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/category/{category_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantListResponse> getRestaurantByCategoryId(@PathVariable("category_id") String categoryId) throws RestaurantNotFoundException, CategoryNotFoundException {
 
@@ -147,6 +170,14 @@ public class RestaurantController {
         RestaurantListResponse restaurantListResponse = new RestaurantListResponse().restaurants(restaurantList);
         return new ResponseEntity<RestaurantListResponse>(restaurantListResponse, HttpStatus.OK);
     }
+
+    /**
+     * Gets restaurant by id.
+     *
+     * @param restaurantId the restaurant id
+     * @return the restaurant by id
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantDetailsResponse> getRestaurantById(@PathVariable("restaurant_id") String restaurantId) throws RestaurantNotFoundException {
 
@@ -188,6 +219,17 @@ public class RestaurantController {
         return new ResponseEntity<RestaurantDetailsResponse>(restaurantDetailsResponse, HttpStatus.OK);
     }
 
+    /**
+     * Update restaurant details response entity.
+     *
+     * @param authorization  the authorization
+     * @param resttId        the restt id
+     * @param customerRating the customer rating
+     * @return the response entity
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws RestaurantNotFoundException  the restaurant not found exception
+     * @throws InvalidRatingException       the invalid rating exception
+     */
     @RequestMapping(method = RequestMethod.PUT, path = "/restaurant/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<RestaurantUpdatedResponse> updateRestaurantDetails(@RequestHeader("authorization") final String authorization, @PathVariable("restaurant_id") final String resttId,
             @RequestParam(name = "customer_rating", required = true) Double customerRating) throws AuthorizationFailedException, RestaurantNotFoundException, InvalidRatingException {

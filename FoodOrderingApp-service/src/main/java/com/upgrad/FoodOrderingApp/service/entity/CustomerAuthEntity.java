@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
+/**
+ * The type CustomerAuth entity for customer_auth table.
+ */
 @Entity
 @Table(name = "customer_auth")
 @NamedQueries({

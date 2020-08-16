@@ -8,17 +8,32 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The type Payment service.
+ */
 @Service
 public class PaymentService {
 
     @Autowired
     private PaymentDao paymentDao;
 
+    /**
+     * Gets all payment methods.
+     *
+     * @return the all payment methods
+     */
     public List<PaymentEntity> getAllPaymentMethods() {
         return paymentDao.getPaymentOptions();
     }
 
 
+    /**
+     * Gets payment by uuid.
+     *
+     * @param paymentUUID the payment uuid
+     * @return the payment by uuid
+     * @throws PaymentMethodNotFoundException the payment method not found exception
+     */
     public PaymentEntity getPaymentByUUID(String paymentUUID) throws PaymentMethodNotFoundException{
         PaymentEntity paymentEntity = paymentDao.getPaymentByUUID(paymentUUID);
         if(paymentEntity == null)

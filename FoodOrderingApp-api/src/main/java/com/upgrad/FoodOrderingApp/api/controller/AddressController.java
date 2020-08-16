@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The type Address controller.
+ */
 @RestController
 @RequestMapping("/")
 public class AddressController {
@@ -29,6 +32,16 @@ public class AddressController {
     @Autowired
     private CustomerService customerService;
 
+    /**
+     * Save address response entity.
+     *
+     * @param authorization      the authorization
+     * @param saveAddressRequest the save address request
+     * @return the response entity
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws SaveAddressException         the save address exception
+     * @throws AddressNotFoundException     the address not found exception
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/address", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SaveAddressResponse> saveAddress(@RequestHeader("authorization") final String authorization, @RequestBody(required = false) final SaveAddressRequest saveAddressRequest) throws AuthorizationFailedException, SaveAddressException, AddressNotFoundException {
 
@@ -36,6 +49,7 @@ public class AddressController {
         CustomerEntity customerEntity = customerService.getCustomer(authToken);
         StateEntity stateEntity = addressService.getStateByUUID(saveAddressRequest.getStateUuid());
 
+        //Create new AddressEntity with given request
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setUuid(UUID.randomUUID().toString());
         addressEntity.setFlatBuildingName(saveAddressRequest.getFlatBuildingName());
@@ -53,6 +67,14 @@ public class AddressController {
 
     }
 
+    /**
+     * Gets all address.
+     *
+     * @param authorization the authorization
+     * @return the all address
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws AddressNotFoundException     the address not found exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/address/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AddressListResponse> getAllAddress(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AddressNotFoundException {
 
@@ -74,6 +96,15 @@ public class AddressController {
 
     }
 
+    /**
+     * Delete address entity.
+     *
+     * @param authorization the authorization
+     * @param addressId     the address id
+     * @return the response entity
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws AddressNotFoundException     the address not found exception
+     */
     @RequestMapping(method = RequestMethod.DELETE, path = "/address/{address_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<DeleteAddressResponse> deleteAddress(@RequestHeader("authorization") final String authorization, @PathVariable("address_id") String addressId) throws AuthorizationFailedException, AddressNotFoundException {
         if(addressId == null || addressId == ""){
@@ -89,6 +120,11 @@ public class AddressController {
         return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse,HttpStatus.OK);
     }
 
+    /**
+     * Get all states.
+     *
+     * @return the response entity
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/states", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<StatesListResponse> getAllStates(){
 
