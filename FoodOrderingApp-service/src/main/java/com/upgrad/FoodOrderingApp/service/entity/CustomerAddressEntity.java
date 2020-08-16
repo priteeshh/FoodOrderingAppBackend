@@ -2,6 +2,9 @@ package com.upgrad.FoodOrderingApp.service.entity;
 
 import javax.persistence.*;
 
+/**
+ * The type CustomerAddress entity for customer_address table.
+ */
 @Entity
 @Table(name = "customer_address")
 @NamedQueries({

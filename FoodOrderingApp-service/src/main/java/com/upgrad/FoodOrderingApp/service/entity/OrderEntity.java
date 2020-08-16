@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * The type Order entity for orders table.
+ */
 @Entity
 @Table(name = "orders")
 @NamedQueries(

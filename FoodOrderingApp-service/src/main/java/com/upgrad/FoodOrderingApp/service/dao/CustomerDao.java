@@ -10,15 +10,31 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * The type Customer dao.
+ */
 @Repository
 public class CustomerDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Create customer customer entity.
+     *
+     * @param customerEntity the customer entity
+     * @return the customer entity
+     */
     public CustomerEntity createCustomer(CustomerEntity customerEntity) {
             entityManager.persist(customerEntity);
             return customerEntity;
     }
+
+    /**
+     * Gets user by contact number.
+     *
+     * @param contact_number the contact number
+     * @return the user by contact number
+     */
     public CustomerEntity getUserByContactNumber(String contact_number) {
         try {
             return entityManager.createNamedQuery("getCustomerByContactNumber", CustomerEntity.class).setParameter("contact_number", contact_number).getSingleResult();
@@ -26,11 +42,24 @@ public class CustomerDao {
             return null;
         }
     }
+
+    /**
+     * Generate auth token customer auth entity.
+     *
+     * @param customerAuthEntity the customer auth entity
+     * @return the customer auth entity
+     */
     public CustomerAuthEntity generateAuthToken(CustomerAuthEntity customerAuthEntity){
         entityManager.persist(customerAuthEntity);
         return customerAuthEntity;
     }
 
+    /**
+     * Get customer from auth token customer auth entity.
+     *
+     * @param accessToken the access token
+     * @return the customer auth entity
+     */
     public CustomerAuthEntity getCustomerFromAuthToken(String accessToken){
         try {
             return entityManager.createNamedQuery("getCustomerFromAuthToKen", CustomerAuthEntity.class).setParameter("accessToken", accessToken).getSingleResult();
@@ -38,6 +67,13 @@ public class CustomerDao {
             return null;
         }
     }
+
+    /**
+     * Customer logout customer auth entity.
+     *
+     * @param customerAuthEntity the customer auth entity
+     * @return the customer auth entity
+     */
     public CustomerAuthEntity customerLogout(CustomerAuthEntity customerAuthEntity){
         try {
             entityManager.merge(customerAuthEntity);
@@ -47,6 +83,12 @@ public class CustomerDao {
         return customerAuthEntity;
     }
 
+    /**
+     * Update customer customer entity.
+     *
+     * @param customerEntity the customer entity
+     * @return the customer entity
+     */
     public CustomerEntity updateCustomer(CustomerEntity customerEntity){
         try {
             entityManager.merge(customerEntity);
@@ -55,6 +97,13 @@ public class CustomerDao {
         }
         return customerEntity;
     }
+
+    /**
+     * Update password customer entity.
+     *
+     * @param customerEntity the customer entity
+     * @return the customer entity
+     */
     public CustomerEntity updatePassword(CustomerEntity customerEntity){
         try {
             entityManager.merge(customerEntity);
@@ -64,6 +113,12 @@ public class CustomerDao {
         return customerEntity;
     }
 
+    /**
+     * Gets customer by uuid.
+     *
+     * @param uuid the uuid
+     * @return the customer by uuid
+     */
     public CustomerEntity getCustomerByUUID(String uuid) {
         try {
             return entityManager.createNamedQuery("customerByUUID", CustomerEntity.class).setParameter("uuid", uuid).getSingleResult();

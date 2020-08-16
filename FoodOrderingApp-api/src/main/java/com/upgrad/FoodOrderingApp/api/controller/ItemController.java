@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The type Item controller.
+ */
 @RestController
 @RequestMapping("/")
 public class ItemController {
@@ -30,6 +33,13 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
+    /**
+     * Gets items for restaurant.
+     *
+     * @param restaurantId the restaurant id
+     * @return the item list
+     * @throws RestaurantNotFoundException the restaurant not found exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/item/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ItemListResponse> getItemList(@PathVariable("restaurant_id") final String restaurantId) throws RestaurantNotFoundException {
         RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(restaurantId);

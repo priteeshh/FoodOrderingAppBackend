@@ -13,6 +13,9 @@ import java.util.Base64;
 import java.util.Random;
 
 
+/**
+ * The type Password cryptography provider.
+ */
 @Component
 public class PasswordCryptographyProvider {
 

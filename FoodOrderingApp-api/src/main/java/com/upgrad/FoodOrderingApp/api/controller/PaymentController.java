@@ -16,13 +16,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The type Payment controller.
+ */
 @RestController
 @RequestMapping
 public class PaymentController {
 
+    /**
+     * The Payment service.
+     */
     @Autowired
     PaymentService paymentService;
 
+    /**
+     * Gets all payment methods.
+     *
+     * @return the all payment methods
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/payment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<PaymentListResponse> getAllPaymentMethods() {
 
@@ -30,6 +41,7 @@ public class PaymentController {
 
         PaymentListResponse paymentListResponse = new PaymentListResponse();
 
+        //Get all payment options available and respond
         for (PaymentEntity payment : paymentEntityList) {
             PaymentResponse paymentResponse = new PaymentResponse()
                     .id(UUID.fromString(payment.getUuid()))

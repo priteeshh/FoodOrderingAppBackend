@@ -2,6 +2,9 @@ package com.upgrad.FoodOrderingApp.service.entity;// default package
 
 import javax.persistence.*;
 
+/**
+ * The type Coupon entity for coupon table.
+ */
 @Entity
 @Table(name = "coupon", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = "uuid"))
 @NamedQueries({

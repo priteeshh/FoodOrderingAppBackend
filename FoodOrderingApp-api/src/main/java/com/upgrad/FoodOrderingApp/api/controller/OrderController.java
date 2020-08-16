@@ -16,10 +16,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+/**
+ * The type Order controller.
+ */
 @RestController
 @RequestMapping
 public class OrderController {
 
+    /**
+     * The Order service.
+     */
     @Autowired
     OrderService orderService;
 
@@ -38,6 +44,15 @@ public class OrderController {
     @Autowired
     private ItemService itemService;
 
+    /**
+     * Gets coupons
+     *
+     * @param authorization the authorization
+     * @param couponName    the coupon name
+     * @return the coupon
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws CouponNotFoundException      the coupon not found exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/order/coupon/{coupon_name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CouponDetailsResponse> getCoupon(@RequestHeader("authorization") final String authorization,
                                                            @PathVariable("coupon_name") String couponName) throws AuthorizationFailedException, CouponNotFoundException {
@@ -54,6 +69,13 @@ public class OrderController {
 
     }
 
+    /**
+     * Gets orders by customer.
+     *
+     * @param authorization the authorization
+     * @return the orders by customer
+     * @throws AuthorizationFailedException the authorization failed exception
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/order", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomerOrderResponse> getOrdersByCustomer(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
 
@@ -61,6 +83,8 @@ public class OrderController {
         CustomerEntity customerEntity = customerService.getCustomer(authToken);
         List<OrderList> orderLists = new LinkedList<>();
         List<OrderEntity> allOrders = orderService.getOrdersByCustomers(customerEntity.getUuid());
+
+        //For every orders by the customer retrieve the details related to order like payment, items, coupon etc
         allOrders.forEach(order -> {
                     List<OrderItemEntity> orderItemEntity = orderService.getOrderItems(order);
                     List<ItemQuantityResponse> itemQtyRes = new ArrayList<>();
@@ -79,6 +103,7 @@ public class OrderController {
                             }
                     );
 
+                    //Create response object for displaying back
                     OrderList orderList = new OrderList()
                             .id(UUID.fromString(order.getUuid()))
                             .bill(order.getBill())
@@ -115,6 +140,20 @@ public class OrderController {
 
     }
 
+    /**
+     * Create new Order.
+     *
+     * @param authorization    the authorization
+     * @param saveOrderRequest the save order request
+     * @return the response entity
+     * @throws AuthorizationFailedException   the authorization failed exception
+     * @throws CategoryNotFoundException      the category not found exception
+     * @throws CouponNotFoundException        the coupon not found exception
+     * @throws PaymentMethodNotFoundException the payment method not found exception
+     * @throws RestaurantNotFoundException    the restaurant not found exception
+     * @throws ItemNotFoundException          the item not found exception
+     * @throws AddressNotFoundException       the address not found exception
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/order", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SaveOrderResponse> saveOrder(@RequestHeader("authorization") final String authorization, @RequestBody final SaveOrderRequest saveOrderRequest)
             throws AuthorizationFailedException, CategoryNotFoundException, CouponNotFoundException, PaymentMethodNotFoundException, RestaurantNotFoundException, ItemNotFoundException, AddressNotFoundException {
@@ -122,6 +161,7 @@ public class OrderController {
         String authToken = authorization.split("Bearer ")[1];
         CustomerEntity customerEntity = customerService.getCustomer(authToken);
 
+        //Initially create an order entity with all prerequisites
         final OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUuid(UUID.randomUUID().toString());
         orderEntity.setCouponEntity(orderService.getCouponByCouponId(saveOrderRequest.getCouponId().toString()));
@@ -134,6 +174,7 @@ public class OrderController {
         orderEntity.setDate(new Date());
         OrderEntity savedOrderEntity = orderService.saveOrder(orderEntity);
 
+        //For previously created order add item details
         for (ItemQuantity itemQuantity : saveOrderRequest.getItemQuantities()) {
             OrderItemEntity orderItemEntity = new OrderItemEntity();
             orderItemEntity.setOrder(savedOrderEntity);

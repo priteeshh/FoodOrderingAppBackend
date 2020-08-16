@@ -5,6 +5,9 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Restaurant entity for restaurant table.
+ */
 @Entity
 @NamedQueries({
         @NamedQuery(name = "getAllRestaurants", query = "select p from RestaurantEntity p order by customerRating desc"),

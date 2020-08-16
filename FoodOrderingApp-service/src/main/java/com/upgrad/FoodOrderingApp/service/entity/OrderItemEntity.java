@@ -2,6 +2,9 @@ package com.upgrad.FoodOrderingApp.service.entity;// default package
 
 import javax.persistence.*;
 
+/**
+ * The type OrderItem entity for order_item table.
+ */
 @Entity
 @Table(name = "order_item", schema = "public")
 @NamedQueries(

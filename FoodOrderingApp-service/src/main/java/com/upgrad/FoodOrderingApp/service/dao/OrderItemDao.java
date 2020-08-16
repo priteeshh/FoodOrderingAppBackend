@@ -9,16 +9,32 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * The type Order item dao.
+ */
 @Repository
 public class OrderItemDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    /**
+     * Create order item entity order item entity.
+     *
+     * @param orderItemEntity the order item entity
+     * @return the order item entity
+     */
     public OrderItemEntity createOrderItemEntity(OrderItemEntity orderItemEntity) {
         entityManager.persist(orderItemEntity);
         return orderItemEntity;
     }
 
+    /**
+     * Gets order items.
+     *
+     * @param orderEntity the order entity
+     * @return the order items
+     */
     public List<OrderItemEntity> getOrderItems(OrderEntity orderEntity) {
 
         try {

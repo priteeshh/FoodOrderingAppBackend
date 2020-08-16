@@ -11,29 +11,32 @@ import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * The type Category service.
+ */
 @Service
 public class CategoryService {
 
     @Autowired
     private CategoryDao categoryDao;
 
+    /**
+     * Gets all categories ordered by name.
+     *
+     * @return the all categories ordered by name
+     */
     public List<CategoryEntity> getAllCategoriesOrderedByName() {
         List<CategoryEntity> categoryEntity = categoryDao.getCategoryOrderedByName();
         return categoryEntity;
     }
 
-    public List<CategoryItemEntity> getCategoryItemById(String uuid) throws CategoryNotFoundException {
-        List<CategoryItemEntity> categoryEntity = categoryDao.getAllItemsForCategory(uuid);
-        if (uuid.isEmpty()) {
-            throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
-        }
-        if (categoryEntity == null || categoryEntity.size() == 0) {
-            throw new CategoryNotFoundException("CNF-002", "No category by this id");
-        }
-        return categoryEntity;
-    }
-
-
+    /**
+     * Gets category by id.
+     *
+     * @param categoryUuid the category uuid
+     * @return the category by id
+     * @throws CategoryNotFoundException the category not found exception
+     */
     public CategoryEntity getCategoryById(String categoryUuid) throws CategoryNotFoundException {
         if (categoryUuid.equals("")) {
             throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
@@ -49,6 +52,12 @@ public class CategoryService {
     }
 
 
+    /**
+     * Gets categories by restaurant.
+     *
+     * @param restaurantId the restaurant id
+     * @return the categories by restaurant
+     */
     public List<CategoryEntity> getCategoriesByRestaurant(String restaurantId) {
         List<RestaurantCategoryEntity> listRestaurantCategoryEntity = categoryDao.getCategoriesByRestaurant(restaurantId);
         List<CategoryEntity> listCategoryEntity = new ArrayList<>();

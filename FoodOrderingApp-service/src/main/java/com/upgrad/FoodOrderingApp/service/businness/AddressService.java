@@ -17,6 +17,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Address service.
+ */
 @Service
 public class AddressService {
 
@@ -24,6 +27,14 @@ public class AddressService {
     private AddressDao addressDao;
 
 
+    /**
+     * Save address address entity.
+     *
+     * @param addressEntity  the address entity
+     * @param customerEntity the customer entity
+     * @return the address entity
+     * @throws SaveAddressException the save address exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public AddressEntity saveAddress(AddressEntity addressEntity, CustomerEntity customerEntity) throws SaveAddressException {
         if(addressEntity.getFlatBuildingName() == null || addressEntity.getFlatBuildingName() == "" ||
@@ -44,6 +55,13 @@ public class AddressService {
         return savedAddressEntity;
     }
 
+    /**
+     * Gets state by uuid.
+     *
+     * @param stateUUID the state uuid
+     * @return the state by uuid
+     * @throws AddressNotFoundException the address not found exception
+     */
     public StateEntity getStateByUUID(String stateUUID) throws AddressNotFoundException {
        StateEntity state = addressDao.getState(stateUUID);
        if(state == null){
@@ -52,6 +70,12 @@ public class AddressService {
         return state;
     }
 
+    /**
+     * Gets all address.
+     *
+     * @param customerEntity the customer entity
+     * @return the all address
+     */
     public List<AddressEntity> getAllAddress(CustomerEntity customerEntity) {
         List<CustomerAddressEntity> customerAddressEntityList = addressDao.getAllCustomerAddress(customerEntity);
         List<AddressEntity> addressList = new ArrayList<>();
@@ -60,6 +84,16 @@ public class AddressService {
         }
         return addressList;
     }
+
+    /**
+     * Gets address by uuid.
+     *
+     * @param addressId      the address id
+     * @param customerEntity the customer entity
+     * @return the address by uuid
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws AddressNotFoundException     the address not found exception
+     */
     public AddressEntity getAddressByUUID(String addressId, CustomerEntity customerEntity) throws AuthorizationFailedException, AddressNotFoundException {
         CustomerAddressEntity customerAddressEntity = addressDao.getAddressFromUUID(addressId);
         if(customerAddressEntity == null){
@@ -71,12 +105,25 @@ public class AddressService {
         return customerAddressEntity.getAddress();
     }
 
+    /**
+     * Delete address address entity.
+     *
+     * @param addressEntity the address entity
+     * @return the address entity
+     * @throws AuthorizationFailedException the authorization failed exception
+     * @throws AddressNotFoundException     the address not found exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public AddressEntity deleteAddress(AddressEntity addressEntity) throws AuthorizationFailedException, AddressNotFoundException {
         AddressEntity deletedAddressEntity = addressDao.deleteAddress(addressEntity);
         return deletedAddressEntity;
     }
 
+    /**
+     * Get all states list.
+     *
+     * @return the list
+     */
     public List<StateEntity> getAllStates(){
         List<StateEntity> stateEntityList = addressDao.getAllState();
         return stateEntityList;
