@@ -24,6 +24,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class AddressController {
 
     @Autowired
